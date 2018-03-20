@@ -101,11 +101,6 @@ function( BuildBoost )
 
         set( BOOST_TARBALL_PATH ${BOOST_SOURCE_DIR}/${BOOST_TARBALL} )
 
-        set( TIME_CONDITION )
-        if( EXISTS ${BOOST_TARBALL_PATH} )
-            set( TIME_CONDITION --time-cond ${BOOST_TARBALL_PATH} )
-        endif()
-
         if( OVERRIDE_TIMESTAMP_CHECK )
             set( OVERRIDE_TIMESTAMP_TEST test -s ${BOOST_TARBALL_PATH} || )
         endif()
@@ -114,7 +109,7 @@ function( BuildBoost )
         add_custom_command( OUTPUT ${BOOST_TARBALL_PATH}
                 WORKING_DIRECTORY ${BOOST_SOURCE_DIR}
                 DEPENDS ${CMAKE_RUN}
-                COMMAND ${OVERRIDE_TIMESTAMP_TEST} curl ${TIME_CONDITION} -o ${BOOST_TARBALL_PATH} --silent --location ${BOOST_URL}
+                COMMAND ${OVERRIDE_TIMESTAMP_TEST} curl --time-cond ${BOOST_TARBALL_PATH} -o ${BOOST_TARBALL_PATH} --silent --location ${BOOST_URL}
                 COMMENT "Downloading Boost source, if needed, for ${BOOST_TARGET}" )
 
         ### Untar and build
